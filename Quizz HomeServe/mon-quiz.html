@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mon Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+
+    body {
+      background-color: #0D1B2A;
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .topbar {
+      background-color: #152030;
+      border-bottom: 1px solid #1E3A5F;
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .topbar-titre {
+      font-size: 20px;
+      color: #8A9BB0;
+    }
+
+    .contenu {
+      padding: 60px 40px;
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background-color: #00A86B;
+      color: white;
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 32px;
+    }
+
+    p {
+      color: #8A9BB0;
+      font-size: 15px;
+    }
+
+    .cartes {
+      display: flex;
+      flex-direction: row;
+      gap: 16px;
+      margin: 32px 0;
+      justify-content: center;
+    }
+
+    .carte {
+      background-color: #152030;
+      border: 1px solid #1E3A5F;
+      border-radius: 12px;
+      padding: 28px 40px;
+      text-align: center;
+      min-width: 160px;
+    }
+
+    .carte-nombre {
+      font-family: 'Syne', sans-serif;
+      font-size: 30px;
+      font-weight: 800;
+      color: #00A86B;
+    }
+
+    .carte-label {
+      font-size: 12px;
+      color: #8A9BB0;
+      margin-top: 4px;
+    }
+
+    .btn-principal {
+      background-color: #00A86B;
+      color: white;
+      border: none;
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 16px 48px;
+      border-radius: 50px;
+      cursor: pointer;
+    }
+
+    .btn-principal:hover {
+      opacity: 0.9;
+    }
+
+    .formulaire {
+      max-width: 500px;
+      margin: 60px auto 0;
+      padding: 0 40px;
+    }
+
+    .formulaire h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .formulaire p {
+      margin-bottom: 32px;
+    }
+
+    .champ {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .champ label {
+      font-size: 12px;
+      color: #8A9BB0;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .champ input {
+      background-color: #152030;
+      border: 1.5px solid #1E3A5F;
+      border-radius: 10px;
+      padding: 14px 16px;
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .champ input:focus {
+      border-color: #00A86B;
+    }
+
+    .quiz {
+      max-width: 700px;
+      margin: 48px auto 0;
+      padding: 0 40px;
+    }
+
+    .q-compteur {
+      font-size: 11px;
+      color: #8A9BB0;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .q-texte {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 28px;
+    }
+
+    .q-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-btn {
+      background-color: #152030;
+      border: 1.5px solid #1E3A5F;
+      border-radius: 12px;
+      padding: 16px 20px;
+      text-align: left;
+      cursor: pointer;
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .option-btn:hover {
+      border-color: #00A86B;
+      background-color: rgba(0, 168, 107, 0.07);
+    }
+
+    .option-lettre {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background-color: #1E3A5F;
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: #8A9BB0;
+      flex-shrink: 0;
+    }
+
+    .option-btn.correct {
+      border-color: #00A86B;
+      background-color: rgba(0, 168, 107, 0.12);
+    }
+
+    .option-btn.correct .option-lettre {
+      background-color: #00A86B;
+      color: white;
+    }
+
+    .option-btn.wrong {
+      border-color: #EF5350;
+      background-color: rgba(239, 83, 80, 0.1);
+    }
+
+    .option-btn.wrong .option-lettre {
+      background-color: #EF5350;
+      color: white;
+    }
+
+    .feedback {
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-top: 20px;
+      font-size: 14px;
+      line-height: 1.6;
+      display: none;
+    }
+
+    .feedback.correct {
+      background-color: rgba(0, 168, 107, 0.12);
+      border: 1px solid rgba(0, 168, 107, 0.3);
+      color: #6ee7b7;
+      display: block;
+    }
+
+    .feedback.wrong {
+      background-color: rgba(239, 83, 80, 0.1);
+      border: 1px solid rgba(239, 83, 80, 0.3);
+      color: #fca5a5;
+      display: block;
+    }
+
+    .feedback strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 15px;
+    }
+
+    .btn-suivant {
+      margin-top: 20px;
+      background-color: transparent;
+      border: 1.5px solid #00A86B;
+      color: #00A86B;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 13px 36px;
+      border-radius: 50px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .btn-suivant:hover {
+      background-color: rgba(0, 168, 107, 0.12);
+    }
+
+    .resultats {
+      max-width: 640px;
+      margin: 60px auto 0;
+      padding: 0 40px;
+      text-align: center;
+      display: none;
+    }
+
+    .score-grand {
+      font-family: 'Syne', sans-serif;
+      font-size: 80px;
+      font-weight: 800;
+      color: #00A86B;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .score-grand.echec {
+      color: #EF5350;
+    }
+
+    .score-fraction {
+      font-size: 16px;
+      color: #8A9BB0;
+      margin-bottom: 24px;
+    }
+
+    .banniere {
+      border-radius: 12px;
+      padding: 16px 24px;
+      margin-bottom: 24px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .banniere.reussi {
+      background-color: rgba(0, 168, 107, 0.1);
+      border: 1px solid rgba(0, 168, 107, 0.3);
+      color: #6ee7b7;
+    }
+
+    .banniere.echoue {
+      background-color: rgba(239, 83, 80, 0.08);
+      border: 1px solid rgba(239, 83, 80, 0.25);
+      color: #fca5a5;
+    }
+
+    .banniere strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .detail-reponses {
+      background-color: #152030;
+      border: 1px solid #1E3A5F;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 32px;
+      text-align: left;
+    }
+
+    .detail-ligne {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 20px;
+      border-bottom: 1px solid #1E3A5F;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .detail-ligne:last-child {
+      border-bottom: none;
+    }
+
+    .detail-icone-ok { color: #00A86B; font-size: 16px; flex-shrink: 0; }
+    .detail-icone-ko { color: #EF5350; font-size: 16px; flex-shrink: 0; }
+    .detail-bonne { color: #8A9BB0; font-size: 12px; margin-top: 2px; }
+
+  </style>
+</head>
+<body>
+
+  <!-- Barre du haut -->
+  <div class="topbar">
+    <img src="plen 1.png" height="90">
+    <span class="topbar-titre">Quiz de formation — Plenitude × HomeServe</span>
+    <img src="HSV.png" height="35">
+  </div>
+
+  <!-- Écran d'accueil -->
+  <div class="contenu" id="ecran-accueil">
+    <div class="badge">Formation</div>
+    <h1>Quiz de fin de formation<br>
+      <span style="color:#00A86B">Plenitude</span>
+      <span style="color:#8A9BB0">×</span>
+      <span style="color:#E8001D">HomeServe</span>
+    </h1>
+    <p>Valide ta compréhension des produits avant de commencer à vendre.</p>
+
+    <div class="cartes">
+      <div class="carte">
+        <div class="carte-nombre">10</div>
+        <div class="carte-label">Questions</div>
+      </div>
+      <div class="carte">
+        <div class="carte-nombre">80%</div>
+        <div class="carte-label">Score minimum requis</div>
+      </div>
+      <div class="carte">
+        <div class="carte-nombre">~8 min</div>
+        <div class="carte-label">Durée estimée</div>
+      </div>
+    </div>
+
+    <button class="btn-principal" onclick="allerFormulaire()">Commencer le quiz →</button>
+  </div>
+
+  <!-- Écran formulaire conseiller -->
+  <div class="formulaire" id="ecran-formulaire" style="display:none">
+    <h2>Avant de commencer</h2>
+    <p>Remplis tes informations pour enregistrer ton résultat.</p>
+
+    <div class="champ">
+      <label>Prénom</label>
+      <input type="text" id="prenom" placeholder="Ton prénom">
+    </div>
+    <div class="champ">
+      <label>Nom</label>
+      <input type="text" id="nom" placeholder="Ton nom">
+    </div>
+    <div class="champ">
+      <label>Partenaire</label>
+      <input type="text" id="partenaire" placeholder="Nom de ton partenaire">
+    </div>
+    <div class="champ">
+      <label>Site</label>
+      <input type="text" id="site" placeholder="Nom de ton site">
+    </div>
+
+    <button class="btn-principal" onclick="commencerQuiz()" style="margin-top:12px">Démarrer le quiz →</button>
+  </div>
+
+  <!-- Zone des questions -->
+  <div class="quiz" id="ecran-quiz" style="display:none">
+    <div class="q-compteur" id="q-compteur"></div>
+    <div class="q-texte" id="q-texte"></div>
+    <div class="q-options" id="q-options"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="btn-suivant" id="btn-suivant" onclick="questionSuivante()">Question suivante →</button>
+  </div>
+
+  <!-- Écran de résultats -->
+  <div class="resultats" id="ecran-resultats">
+    <div class="score-grand" id="score-grand"></div>
+    <div class="score-fraction" id="score-fraction"></div>
+    <div class="banniere" id="banniere"></div>
+    <div class="detail-reponses" id="detail-reponses"></div>
+    <button class="btn-principal" onclick="recommencer()">Recommencer le quiz</button>
+  </div>
+
+  <script>
+
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCJWBKkASn8ye4FgCf-LHLmthAZKudizpJAStj35vsE3pcZynxtRqaM3zKagOXBc7LVQ/exec";
+
+    const QUESTIONS = [
+      {
+        q: "Quel est le tarif de lancement mensuel du PleniCoach Dépannage ?",
+        opts: ["3,99 €/mois", "4,99 €/mois", "5,99 €/mois", "10,99 €/mois"],
+        answer: 1,
+        feedback: "Le tarif de lancement est de 4,99 €/mois. Après la période de lancement, il passera à 5,99 €/mois pour les nouveaux abonnés."
+      },
+      {
+        q: "Combien d'interventions par an le PleniCoach Dépannage standard inclut-il ?",
+        opts: ["Aucune — c'est uniquement du coaching à distance", "1 intervention par an", "3 interventions par an", "Des interventions illimitées"],
+        answer: 1,
+        feedback: "Le standard inclut 1 intervention par an. C'est le Premium qui offre des interventions illimitées."
+      },
+      {
+        q: "Quelles installations sont couvertes par le PleniCoach Dépannage Premium ?",
+        opts: ["Électricité uniquement", "Électricité et gaz", "Électricité, gaz et plomberie intérieure", "Électricité, gaz, plomberie et toiture"],
+        answer: 2,
+        feedback: "Le Premium couvre l'électricité, le gaz ET la plomberie intérieure — ce qui le différencie du standard."
+      },
+      {
+        q: "À quelle condition un client peut-il souscrire un PleniCoach Dépannage ?",
+        opts: ["Avoir un contrat gaz uniquement", "Avoir souscrit à une offre d'électricité ou dual", "Être propriétaire de son logement", "Avoir souscrit à une offre fibre Plenitude"],
+        answer: 1,
+        feedback: "La seule condition est d'avoir souscrit à une offre d'électricité ou dual chez Plenitude."
+      },
+      {
+        q: "Un client a un contrat électricité uniquement. Peut-il bénéficier d'une intervention sur son installation gaz ?",
+        opts: ["Non, il faut un contrat gaz pour être couvert", "Oui, une intervention peut être réalisée sur les deux énergies", "Oui, mais uniquement en visio", "Uniquement avec un compteur Linky"],
+        answer: 1,
+        feedback: "Oui — même avec un contrat électricité seul, une intervention peut être réalisée sur les deux énergies."
+      },
+      {
+        q: "Un client souhaite se rétracter après avoir souscrit un PleniCoach. Quel délai s'applique ?",
+        opts: ["7 jours calendaires", "14 jours calendaires", "30 jours", "Pas de droit de rétractation"],
+        answer: 1,
+        feedback: "Le client dispose de 14 jours calendaires à compter de la souscription, sans motif ni pénalité."
+      },
+      {
+        q: "Quel est le délai maximum pour que la résiliation d'un PleniCoach prenne effet ?",
+        opts: ["Immédiatement", "14 jours après la demande", "30 jours après la demande", "À la prochaine échéance annuelle"],
+        answer: 2,
+        feedback: "La résiliation prend effet au plus tard 30 jours après la demande, par lettre simple ou via l'espace client."
+      },
+      {
+        q: "Un client résilie son contrat d'énergie Plenitude. Que se passe-t-il avec son PleniCoach ?",
+        opts: ["Le PleniCoach reste actif", "Le PleniCoach est suspendu", "La résiliation du contrat énergie entraîne automatiquement la résiliation du PleniCoach", "Le client doit résilier le PleniCoach séparément"],
+        answer: 2,
+        feedback: "La résiliation du contrat principal entraîne automatiquement la résiliation du PleniCoach, y compris Premium."
+      },
+      {
+        q: "Sur quel pourcentage des interventions le forfait standard (1h30 + pièce 20€ HT) s'applique-t-il ?",
+        opts: ["75%", "85%", "92%", "100%"],
+        answer: 2,
+        feedback: "92% des interventions entrent dans le forfait standard. Seules 8% nécessitent un devis additionnel."
+      },
+      {
+        q: "Le PleniCoach Maison est-il inclus dans les packs payants ?",
+        opts: ["Non, c'est une option à 2,99 €/mois", "Oui, il est inclus dans les packs payants lors de la souscription", "Gratuit uniquement les 3 premiers mois", "Uniquement pour le Premium"],
+        answer: 1,
+        feedback: "Le PleniCoach Maison est inclus dans les packs payants. Il donne accès aux tutos, guides mensuels et conseils."
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+    let reponses = [];
+
+    function allerFormulaire() {
+      document.getElementById('ecran-accueil').style.display = 'none';
+      document.getElementById('ecran-formulaire').style.display = 'block';
+    }
+
+    function commencerQuiz() {
+      const prenom = document.getElementById('prenom').value.trim();
+      const nom = document.getElementById('nom').value.trim();
+      const partenaire = document.getElementById('partenaire').value.trim();
+      const site = document.getElementById('site').value.trim();
+
+      if (!prenom || !nom || !partenaire || !site) {
+        alert('Merci de remplir tous les champs avant de continuer.');
+        return;
+      }
+
+      document.getElementById('ecran-formulaire').style.display = 'none';
+      document.getElementById('ecran-quiz').style.display = 'block';
+      afficherQuestion();
+    }
+
+    function afficherQuestion() {
+      const q = QUESTIONS[current];
+      document.getElementById('q-compteur').textContent = 'Question ' + (current + 1) + ' / ' + QUESTIONS.length;
+      document.getElementById('q-texte').textContent = q.q;
+
+      const optsEl = document.getElementById('q-options');
+      optsEl.innerHTML = '';
+
+      const lettres = ['A', 'B', 'C', 'D'];
+      q.opts.forEach(function(opt, i) {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerHTML = '<span class="option-lettre">' + lettres[i] + '</span> ' + opt;
+        btn.onclick = function() { selectionnerReponse(i); };
+        optsEl.appendChild(btn);
+      });
+
+      document.getElementById('feedback').className = 'feedback';
+      document.getElementById('feedback').innerHTML = '';
+      document.getElementById('btn-suivant').style.display = 'none';
+    }
+
+    function selectionnerReponse(idx) {
+      const q = QUESTIONS[current];
+      const btns = document.querySelectorAll('.option-btn');
+
+      btns.forEach(function(b) { b.disabled = true; });
+
+      const estCorrect = idx === q.answer;
+      if (estCorrect) score++;
+
+      reponses.push({
+        question: q.q,
+        correct: estCorrect,
+        bonneReponse: q.opts[q.answer]
+      });
+
+      btns[idx].classList.add(estCorrect ? 'correct' : 'wrong');
+      if (!estCorrect) btns[q.answer].classList.add('correct');
+
+      const fb = document.getElementById('feedback');
+      fb.className = 'feedback ' + (estCorrect ? 'correct' : 'wrong');
+      fb.innerHTML = '<strong>' + (estCorrect ? '✅ Bonne réponse !' : '❌ Ce n\'est pas ça…') + '</strong>' + q.feedback;
+
+      const btnSuivant = document.getElementById('btn-suivant');
+      btnSuivant.style.display = 'inline-block';
+      btnSuivant.textContent = (current + 1 < QUESTIONS.length) ? 'Question suivante →' : 'Voir mes résultats →';
+    }
+
+    function questionSuivante() {
+      current++;
+      if (current < QUESTIONS.length) {
+        afficherQuestion();
+      } else {
+        afficherResultats();
+      }
+    }
+
+    function afficherResultats() {
+      document.getElementById('ecran-quiz').style.display = 'none';
+      document.getElementById('ecran-resultats').style.display = 'block';
+
+      const pct = Math.round((score / QUESTIONS.length) * 100);
+      const reussi = pct >= 80;
+
+      const scoreEl = document.getElementById('score-grand');
+      scoreEl.textContent = pct + '%';
+      scoreEl.className = 'score-grand ' + (reussi ? '' : 'echec');
+
+      document.getElementById('score-fraction').textContent = score + ' bonne(s) réponse(s) sur ' + QUESTIONS.length;
+
+      const banniere = document.getElementById('banniere');
+      banniere.className = 'banniere ' + (reussi ? 'reussi' : 'echoue');
+      banniere.innerHTML = reussi
+        ? '<strong>🎉 Formation validée !</strong>Tu as atteint le seuil de 80%. Bien joué !'
+        : '<strong>⚠️ Seuil non atteint</strong>Il faut au moins 80% pour valider. Reprends le book et retente !';
+
+      const detail = document.getElementById('detail-reponses');
+      detail.innerHTML = reponses.map(function(r, i) {
+        return '<div class="detail-ligne">'
+          + '<span class="' + (r.correct ? 'detail-icone-ok' : 'detail-icone-ko') + '">' + (r.correct ? '✓' : '✗') + '</span>'
+          + '<div><div>' + (i + 1) + '. ' + r.question + '</div>'
+          + (!r.correct ? '<div class="detail-bonne">Bonne réponse : ' + r.bonneReponse + '</div>' : '')
+          + '</div></div>';
+      }).join('');
+
+      // Envoi vers Google Sheets
+      const now = new Date();
+      const date = now.toLocaleDateString('fr-FR') + ' ' + now.toLocaleTimeString('fr-FR');
+
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          date: date,
+          prenom: document.getElementById('prenom').value,
+          nom: document.getElementById('nom').value,
+          partenaire: document.getElementById('partenaire').value,
+          site: document.getElementById('site').value,
+          score: pct + '% (' + score + '/' + QUESTIONS.length + ')'
+        })
+      });
+    }
+
+    function recommencer() {
+      current = 0;
+      score = 0;
+      reponses = [];
+      document.getElementById('ecran-resultats').style.display = 'none';
+      document.getElementById('ecran-accueil').style.display = 'block';
+    }
+
+  </script>
+</body>
+</html>
